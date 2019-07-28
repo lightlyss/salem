@@ -1,0 +1,649 @@
+\newcommand\starbreak{\fancybreak{\decosix\quad\decosix\quad\decosix}}
+
+%%============================
+%% Specify paragraph and margin indents.
+%%============================
+
+\newcommand{\myindent}{1em}
+
+%%============================
+%% Specify the lowest level of heading that should be automatically numbered in LaTeX.
+%% For example, if you don't want chapters to be numbered, use \maxsecnumdepth{part}
+%% If you leave this undefined, LyX will NOT handle it based on Document > Settings > Numbering
+%% because you're using LaTeX \mainmatter and \frontmatter, which turn numbering off and on, respectively.
+%% To allow the user to control this, provide a module.
+%%============================
+\maxsecnumdepth{chapter}
+
+%%============================
+%% Specify the lowest level of heading that should be displayed in the table of contents.
+%%============================
+\maxtocdepth{chapter}
+
+%%============================
+%% Specify format of chapter heads.
+%%============================
+%%With rules
+\newcommand{\myrule}{\hrule}
+
+%============================
+%Force TOC heading and headers to be formatted like those in chapter:
+%============================
+\makeatletter
+\renewcommand\tableofcontents{%
+\if@twocolumn
+\@restonecoltrue\onecolumn
+\else
+\@restonecolfalse
+\fi
+\chapter*{\contentsname
+\@mkboth{\contentsname}{\contentsname}
+}%
+\@starttoc{toc}%
+\if@restonecol\twocolumn\fi
+}
+\makeatother
+
+%%============================
+%% Specify format of running heads.
+%%============================
+%% Without rules
+\newcommand{\rulespace}{}
+
+%% Without dingbats
+\newcommand\headdecostart{ }
+\newcommand\headdecoend{ }
+
+%% left header: chapter
+%% right header: chapter
+\renewcommand\chaptermark[1]{\markboth{#1}{#1}}
+\renewcommand\sectionmark[1]{}
+
+%% Set up page styles (running heads, folios, etc.)
+\makepagestyle{FrontMatter}
+\makeevenhead{FrontMatter}{\itshape\thepage\rulespace}{}{\itshape\rightmark\headdecoend\rulespace} % VERSO
+\makeoddhead{FrontMatter}{\headdecostart\itshape\rightmark\rulespace}{}{\itshape\thepage\rulespace} % RECTO
+\makeevenfoot{FrontMatter}{}{}{}
+\makeoddfoot{FrontMatter}{}{}{}
+
+\makepagestyle{MainMatter}
+\makeevenhead{MainMatter}{\itshape\thepage\rulespace}{}{\itshape\leftmark\headdecoend\rulespace} % VERSO
+\makeoddhead{MainMatter}{\headdecostart\itshape\rightmark\rulespace}{}{\itshape\thepage\rulespace} % RECTO
+\makeevenfoot{MainMatter}{}{}{}
+\makeoddfoot{MainMatter}{}{}{}
+
+\makepagestyle{BackMatter}
+\makeevenhead{BackMatter}{\itshape\thepage\rulespace}{}{\itshape\rightmark\headdecoend\rulespace} % VERSO
+\makeoddhead{BackMatter}{\headdecostart\itshape\rightmark\rulespace}{}{\itshape\thepage\rulespace} % RECTO
+\makeevenfoot{BackMatter}{}{}{}
+\makeoddfoot{BackMatter}{}{}{}
+
+\makeevenfoot{plain}{}{\itshape{\thepage}}{}
+\makeoddfoot{plain}{}{\itshape{\thepage}}{}
+
+%============================
+% Enable multicolumns
+%============================
+\usepackage{multicol}
+
+%============================
+% Prevent double spaces between sentences
+%============================
+\frenchspacing
+
+%============================
+%Turn off folio on part pages (Memoir)
+%============================
+\aliaspagestyle{part}{empty}
+
+%============================
+% Enable vertical justification or not (benefits from flexible leading in Standard environment)
+%============================
+% Vertical justification on:
+\flushbottom
+
+%============================
+% Keep vertical justification from putting extra spacing between paragraphs.
+%============================
+\setlength{\parskip}{0pt}
+
+%============================
+% Prevent vertical justification in text preceding a heading moved to top of next page (Memoir).
+%============================
+\raggedbottomsectiontrue
+
+%============================
+% Adjust word-spacing tolerance to prevent overfull boxes (lines extending outside margin)
+%============================
+\tolerance=5000
+\setlength{\emergencystretch}{2em}
+
+%============================
+% Set hyphenation
+%============================
+\hyphenpenalty=100
+\lefthyphenmin=2
+\righthyphenmin=3
+
+%============================
+% Avoid widows, orphans, and cross-page word breaks
+%============================
+\widowpenalty=9999 % Widows (10000 is the max)
+\brokenpenalty=9999 % Avoid word breaks at page breaks
+
+%============================
+%Get rid of "Figure" label in captions
+%============================
+\makeatletter
+\renewcommand{\fnum@figure}[1]{}
+\makeatother
+
+\captiontitlefont{\itshape}
+\RequirePackage[font=it,caption=false,labelformat=empty]{subfig}
+
+%============================
+% Set up regular footnote numbering style
+%============================
+\makeatletter
+\renewcommand{\@makefntext}[1]{%
+    \setlength{\parindent}{1em}%
+    \makebox[1em][r]{\normalfont\@thefnmark.} #1}
+\makeatother
+\renewcommand{\thefootnote}{\arabic{footnote}}{\normalsize}
+
+%============================
+% Fix spacing above and below footnote rule
+%============================
+\addtolength{\skip\footins}{6pt}
+\makeatletter
+\renewcommand\footnoterule{%
+  \kern-7\p@
+  \hrule width .4\columnwidth%
+  \kern 6.6\p@}
+\makeatother
+
+%===============================
+%Set specs for TOC (Memoir)
+%===============================
+%----------------------------
+% Parts
+%----------------------------
+\cftsetindents{part}{0em}{0em} %Memoir
+\setlength\cftpartnumwidth{2.5em}
+\renewcommand{\cftpartfont}{\bfseries\large}
+\renewcommand{\cftpartpagefont}{\bfseries\large}
+%----------------------------
+% Chapters
+%----------------------------
+\cftsetindents{chapter}{0em}{2.5em} %Memoir
+\renewcommand{\cftchapterfont}{\normalfont}
+\renewcommand{\cftchapterpagefont}{\normalfont}
+\setlength{\cftbeforechapterskip}{\baselineskip} %space before
+\renewcommand{\cftparskip}{0pt} %leading
+%----------------------------
+% Sections
+%----------------------------
+\cftsetindents{section}{4em}{3em} %Memoir
+\renewcommand{\cftsectionfont}{\itshape}
+\setlength\cftbeforesectionskip{.5\baselineskip}
+
+%===============================
+% Specify point size of larger sizes.
+%===============================
+\renewcommand{\large}{\fontsize{12pt}{14pt}\selectfont}
+\renewcommand{\Large}{\fontsize{13pt}{16pt}\selectfont}
+\renewcommand{\LARGE}{\fontsize{14pt}{18pt}\selectfont}
+\renewcommand{\huge}{\fontsize{18pt}{24pt}\selectfont}
+\renewcommand{\Huge}{\fontsize{24pt}{30pt}\selectfont}
+
+%===============================
+% Set specs for part, chapter, and section HEADINGS (Memoir)
+%===============================
+%----------------------------
+% Sections
+%----------------------------
+\setbeforesecskip{1.5\baselineskip}
+\renewcommand{\secheadstyle}{\normalsize\bfseries}
+\renewcommand{\subsecheadstyle}{\centering\itshape}
+\renewcommand{\subsubsecheadstyle}{\itshape}
+\renewcommand{\paraheadstyle}{\itshape}
+\renewcommand{\subparaheadstyle}{\itshape}
+
+%===============================
+% Set up paragraph styles (LaTeX environments)
+%===============================
+
+\newcommand{\baseleading}{1.3em plus.5pt minus.5pt}
+
+\newenvironment{Standard}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{\myindent}
+\setlength\parfillskip{0pt plus .9\hsize}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\fontsize{1em}{\baseleading}\selectfont
+\ignorespaces}
+{\vspace{0in}\par}
+
+\newenvironment{Standard2}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{\myindent}
+\setlength\parfillskip{0pt plus .9\hsize}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\sffamily\fontsize{1em}{\baseleading}\selectfont
+\ignorespaces}
+{\vspace{0in}\par}
+
+\newenvironment{TextBreak}{%
+{\vspace{\baselineskip}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\centering
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{ChapterSubtitle}{%
+{\vspace{-\baselineskip}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\large\itshape\centering
+\ignorespaces}
+{\unskip\vspace{1.5\baselineskip}\par}
+
+\newenvironment{ChapterAuthor}{%
+{\unskip\vspace{-\baselineskip}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\scshape\centering
+\ignorespaces}
+{\unskip\vspace{1.5\baselineskip}\par}
+
+\newenvironment{ChapterNote}{%
+{\ignorespaces\vspace{0pt}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{\baselineskip}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\small
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+\newenvironment{ChapterQuote}{%
+{\unskip\vspace{\baselineskip}\par}
+\setlength\leftskip{\baselineskip}
+\setlength\rightskip{\baselineskip}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\small\itshape
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+\newenvironment{ChapterQuoteSource}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{\myindent}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\small\raggedleft\itshape
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{BlockQuote}{%
+\unskip\par\vspace{\baselineskip}
+\setlength\parindent{\myindent}
+\setlength\leftskip{\myindent}
+\setlength\rightskip{\myindent}
+\setlength\parfillskip{0pt plus .9\hsize}
+\normalfont\fontsize{1em}{\baseleading}\selectfont
+}
+{\unskip\par\vspace{\baselineskip}}
+
+\newenvironment{BlockQuoteHeading}{%
+\renewcommand\baselinestretch{1}
+\setlength\leftskip{0in plus 1fil}
+\setlength\rightskip{0in}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\scshape\centering
+\ignorespaces}
+{\unskip\vspace{0in}\par}
+
+\newenvironment{BlockQuoteSubheading}{%
+\renewcommand\baselinestretch{1}
+\setlength\leftskip{0in plus 1fil}
+\setlength\rightskip{0in}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\itshape\centering
+\ignorespaces}
+{\unskip\vspace{0in}\par}
+
+\newenvironment{BlockQuoteSource}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{\myindent}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\raggedleft\itshape
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{Poem}{%
+\unskip\par\vspace{\baselineskip}
+\setlength\leftskip{8em}
+\setlength\rightskip{4em}
+\setlength\parindent{-4em}%
+\setlength\parfillskip{0pt plus .9\hsize}
+\normalfont\itshape\fontsize{1em}{\baseleading}\selectfont
+}
+{\unskip\par\vspace{\baselineskip}}
+
+\newenvironment{PoemHeading}{%
+{\unskip\vspace{\baselineskip}\par}
+\setlength\leftskip{0in}
+\setlength\rightskip{0in plus 1fil}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\scshape\centering
+\ignorespaces}
+{\unskip\vspace{0in}\par}
+
+\newenvironment{PoemSubheading}{%
+\renewcommand\baselinestretch{1}
+\setlength\leftskip{0in plus 1fil}
+\setlength\rightskip{0in}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\centering
+\ignorespaces}
+{\unskip\vspace{0in}\par}
+
+\newenvironment{PoemSource}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\raggedleft\itshape
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{Sign}{%
+\unskip\vspace{\baselineskip}\par
+\setlength\leftskip{12pt}
+\setlength\rightskip{24pt}
+\setlength\parindent{24pt}
+\setlength\parskip{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+}
+{\unskip\vspace{\baselineskip}\par}
+
+\newenvironment{SignHeading}{%
+\unskip\vspace{\baselineskip}\par
+\setlength\leftskip{0in}
+\setlength\rightskip{0in plus 1fil}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\scshape\centering
+\ignorespaces}
+{\unskip\vspace{0in}\par}
+
+\newenvironment{SignSubheading}{%
+\renewcommand\baselinestretch{1}
+\setlength\leftskip{0in plus 1fil}
+\setlength\rightskip{0in}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\itshape\centering
+\ignorespaces}
+{\unskip\vspace{0in}\par}
+
+%===============================
+
+\newenvironment{Letter}{%
+{\unskip\vspace{\baselineskip}\par}
+\setlength\leftskip{\myindent}
+\setlength\rightskip{\myindent}
+\setlength\parindent{\myindent}
+\setlength\parfillskip{0pt plus .9\hsize}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\fontsize{1em}{\baseleading}\selectfont
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+\newenvironment{LetterOpening}{%
+{\unskip\vspace{\baselineskip}\par}
+\setlength\leftskip{\myindent}
+\setlength\rightskip{\myindent}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus .9\hsize}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize
+\ignorespaces}
+{\unskip\vspace{-\baselineskip}\par}
+
+\newenvironment{LetterClosing}{%
+{\unskip\vspace{-\baselineskip}\par}
+\setlength\leftskip{4em}
+\setlength\rightskip{\myindent}
+\setlength\parindent{\myindent}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+% Formatting for front matter--title page, etc.
+%===============================
+\newenvironment{HalfTitle}{%
+{\mbox{ }\vspace{1in}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\LARGE\center\bfseries
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{2\baselineskip}\cleardoublepage\thispagestyle{empty}\mbox{ }\vfill\par}
+
+\newenvironment{PreTitle}{%
+{\mbox{ }\vspace{\baselineskip}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{\baselineskip}
+\LARGE\itshape\flushleft\bfseries
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{0pt}\par}
+
+\newenvironment{BookTitle}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{6pt}
+\normalfont\HUGE\bfseries\flushleft
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{18pt}\par}
+
+\newenvironment{Subtitle}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{6pt}
+\normalfont\itshape\Large\flushleft\bfseries
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{18pt}\par}
+
+\newenvironment{Author}{%
+{\vspace{1in}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{6pt}
+\normalfont\itshape\LARGE\flushleft\bfseries
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{2\baselineskip}\par}
+
+\newenvironment{Editor}{%
+{\vspace{.25in}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{6pt}
+\normalfont\itshape\center
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{2\baselineskip}\par}
+
+\newenvironment{Publisher}{%
+\vfill
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\normalfont\scshape\normalsize\flushleft\bfseries
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{Copyright}{%
+\clearpage\thispagestyle{empty}\mbox{ }\vfill
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0cm}
+\normalfont\small
+\selectlanguage{english}\leavevmode
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\clearpage\thispagestyle{empty}\par}
+
+%===============================
+
+\newenvironment{Dedication}{%
+\cleardoublepage\thispagestyle{empty}
+{\mbox{ }\vspace{1in}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0in plus 1fil}
+\setlength\parindent{0in}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\itshape\center
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{Epigraph}{%
+\cleardoublepage\thispagestyle{empty}
+{\mbox{ }\vspace{1in}\par}
+\setlength\leftskip{0pt}
+\setlength\rightskip{0in plus 1fil}
+\setlength\parindent{\myindent}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+\newenvironment{EpigraphSource}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\setlength\parfillskip{0pt plus 1fil}
+\setlength\parskip{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\normalsize\raggedleft\itshape
+\ignorespaces}
+{\unskip\vspace{\baselineskip}\par}
+
+%===============================
+
+\newenvironment{Bibliography}{%
+\setlength\rightskip{0pt}
+\setlength\leftskip{2em}
+\setlength\parindent{-2em}
+\selectlanguage{english}\leavevmode
+\normalfont\small\indent
+\ignorespaces}
+{\unskip\vspace{0cm}\par}
+
+%===============================
+
+\newenvironment{Plain Layout}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\small
+\ignorespaces}
+{\unskip\vspace{0cm}\par}
+
+\newenvironment{PictureCaption}{%
+\setlength\leftskip{0pt}
+\setlength\rightskip{0pt}
+\setlength\parindent{0pt}
+\selectlanguage{english}\leavevmode
+\normalfont\small
+\ignorespaces}
+{\unskip\vspace{0cm}\par}
