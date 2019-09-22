@@ -7,7 +7,7 @@ XE = xelatex
 default:
 	$(MAKE) salem.pdf
 
-%.pdf: %.tex preamble.tex cover.tex chapters/ch*.tex
+%.pdf: %.tex preamble.tex cover.tex chapters/*.tex
 	$(PDF) $<
 	$(PDF) $<
 

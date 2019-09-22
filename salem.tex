@@ -2,6 +2,7 @@
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
+\usepackage{pgffor}
 \setcounter{secnumdepth}{1}
 \setcounter{tocdepth}{1}
 
@@ -25,8 +26,10 @@
 
 \mainmatter\pagestyle{MainMatter}{}
 
-\input{chapters/ch1}
-
-\input{chapters/ch2}
+\foreach \c in {1,2,...,20}{%
+  \IfFileExists{chapters/ch-\c} {%
+    \input{chapters/ch-\c}%
+  }{}%
+}%
 
 \end{document}
