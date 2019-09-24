@@ -5,10 +5,8 @@ USER root
 WORKDIR /salem
 COPY . ./
 
-RUN apt-get update -q && apt-get install --no-install-recommends -qy texlive make xzdec wget
-RUN tlmgr init-usertree
-RUN tlmgr update --all
-RUN tlmgr install multicol lmodern fontenc inputenc pgffor babel
+RUN apt-get update -q
+RUN apt-get install --no-install-recommends -qy texlive make xzdec wget lmodern pgf
 
 RUN make clean
 RUN make
