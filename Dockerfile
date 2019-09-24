@@ -1,4 +1,4 @@
-FROM ubuntu:xenial as build
+FROM ubuntu:bionic as build
 ENV DEBIAN_FRONTEND noninteractive
 
 USER root
