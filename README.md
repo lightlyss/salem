@@ -1,6 +1,12 @@
 [![Build Status](https://github.com/lightlyss/salem/workflows/build/badge.svg)](https://github.com/lightlyss/salem)
 # Salem
-Some kind of story that will probably get abandoned at some point. Uses a modularized
-template originally extracted from LyX, for novels or storybooks. If you'd like
-to use the template, just modify `cover.tex` and `chapters/ch-#.tex`. Simply run
-`make` to build.
+![banner](banner.jpg)
+
+## Description
+A short story about magic and despair inspired by various media. Uses a modified
+template for novels or storybooks, originally from LyX. If you'd like to use the
+template yourself, modify `src/cover.tex` and `src/chapters/ch-#.tex` as needed.
+
+## Building
+Run `make` to build the PDF document. `make clean` is also provided to clear
+all built artifacts.

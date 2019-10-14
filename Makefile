@@ -1,15 +1,14 @@
 PDF = pdflatex
-BIB = bibtex
-XE = xelatex
+PDFFLAGS = -halt-on-error -interaction=nonstopmode
 
 .PHONY: clean
 
 default:
 	$(MAKE) salem.pdf
 
-%.pdf: %.tex preamble.tex cover.tex chapters/*.tex
-	$(PDF) $<
-	$(PDF) $<
+%.pdf: src/%.tex src/preamble.tex src/cover.tex src/chapters/*.tex
+	TEXINPUTS="./src//:$(TEXINPUTS)" $(PDF) $(PDFFLAGS) $<
+	TEXINPUTS="./src//:$(TEXINPUTS)" $(PDF) $(PDFFLAGS) $<
 
 clean:
 	$(RM) *.aux *.bbl *.blg *.lof *.log *.lot *.pdf *.toc *.out
