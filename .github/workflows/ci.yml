@@ -7,6 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Install build dependencies
+      run: |
+        apt-get update -q
+        apt-get install --no-install-recommends -qy texlive lmodern texlive-pictures
     - name: Build the PDF document
       run: |
         make clean
