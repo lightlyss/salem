@@ -15,3 +15,5 @@ jobs:
       run: |
         make clean
         make
+    - name: Verify build
+      run: make test
