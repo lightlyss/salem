@@ -3,12 +3,11 @@ name: build
 on: [push]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag salem:$(date +%s)
+    - name: Build the PDF document
+      run: |
+        make clean
+        make
